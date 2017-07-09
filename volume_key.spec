@@ -17,7 +17,6 @@ Source0: https://releases.pagure.org/volume_key/volume_key-%{version}.tar.xz
 Patch1: volume_key-0.3.9-fips-crash.patch
 # Upstream commit 8f8698aba19b501f01285e9eec5c18231fc6bcea
 Patch2: volume_key-0.3.9-config.h.patch
-Patch3:	volume_key-0.3.9-find_python.patch
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	python-devel
@@ -87,13 +86,16 @@ for other formats is possible, some formats are planned for future releases.
 %prep
 %setup -q
 %apply_patches
+sed -e 's/-lpython\$(PYTHON_VERSION)/-lpython%{python3_version}m/' -i Makefile.am
+autoreconf -fiv
 
 %build
 %configure
-%make
+%make PYTHON_CPPFLAGS="$(pkg-config --cflags python3)"
 
 %install
 %makeinstall_std
+rm -rf %{buildroot}%{python_sitearch}/__pycache__/
 
 %find_lang volume_key
 

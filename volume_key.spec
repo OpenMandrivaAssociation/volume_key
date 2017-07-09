@@ -23,6 +23,7 @@ BuildRequires:	python-devel
 BuildRequires:	nss-devel
 BuildRequires:	gpgme-devel
 BuildRequires:	pkgconfig(blkid)
+BuildRequires:	pkgconfig(libcryptsetup)
 
 %description
 This package provides a command-line tool for manipulating storage volume

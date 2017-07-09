@@ -1,0 +1,41 @@
+diff --git a/Makefile.am b/Makefile.am
+index 4569bbf..445a64c 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -20,7 +20,7 @@ ACLOCAL_AMFLAGS = -I m4
+ AM_CPPFLAGS = $(blkid_CFLAGS) $(glib_CFLAGS) $(GPGME_CFLAGS) \
+ 	$(libcryptsetup_CFLAGS) $(nss_CFLAGS)
+ LOCALEDIR_CPPFLAGS = -DLOCALEDIR='"$(localedir)"'
+-PYTHON_CPPFLAGS = -I/usr/include/python$(PYTHON_VERSION)
++PYTHON_CPPFLAGS = $(PYTHON_CFLAGS)
+ 
+ ## Targets
+ SUBDIRS = po
+@@ -65,7 +65,7 @@ lib_libvolume_key_la_LIBADD = $(blkid_LIBS) $(glib_LIBS) $(GPGME_LIBS) \
+ python__volume_key_la_SOURCES = python/volume_key_wrap.c
+ python__volume_key_la_CPPFLAGS = $(AM_CPPFLAGS) $(PYTHON_CPPFLAGS)
+ python__volume_key_la_LDFLAGS = -module -avoid-version $(glib_LIBS)
+-python__volume_key_la_LIBADD = lib/libvolume_key.la -lpython$(PYTHON_VERSION) \
++python__volume_key_la_LIBADD = lib/libvolume_key.la $(PYTHON_LIBS) \
+ 	$(glib_LIBS) $(nss_LIBS)
+ 
+ src_volume_key_SOURCES = src/volume_key.c
+diff --git a/configure.ac b/configure.ac
+index ff35dd0..d961d4d 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -27,7 +27,13 @@ AM_INIT_AUTOMAKE([no-dist-gzip dist-xz no-define subdir-objects -Wall])
+ AC_PROG_CC
+ AM_PROG_CC_C_O
+ LT_INIT([disable-static])
+-AM_PATH_PYTHON
++
++PKG_CHECK_MODULES([PYTHON], [python], [has_python=yes], [])
++AS_IF([test "x$has_python" = "xyes"], [
++    AM_PATH_PYTHON
++    AC_SUBST([PYTHON_CFLAGS])
++    AC_SUBST([PYTHON_LIBS])
++])
+ 
+ dnl Not gpg2, it cannot receive passphrases from gpgme
+ AC_PATH_PROG([GPG], [gpg])

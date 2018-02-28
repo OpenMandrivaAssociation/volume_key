@@ -17,6 +17,7 @@ Source0: https://releases.pagure.org/volume_key/volume_key-%{version}.tar.xz
 Patch1: volume_key-0.3.9-fips-crash.patch
 # Upstream commit 8f8698aba19b501f01285e9eec5c18231fc6bcea
 Patch2: volume_key-0.3.9-config.h.patch
+Patch3: crypt-get-error-undefined-symbol.patch
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	python-devel

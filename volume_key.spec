@@ -6,21 +6,16 @@
 
 Summary: An utility for manipulating storage encryption keys and passphrases
 Name: volume_key
-Version: 0.3.9
+Version: 0.3.11
 Release: 1
 License: GPLv2
 URL: https://pagure.io/volume_key/
 Requires: %{libname} = %{EVRD}
 
 Source0: https://releases.pagure.org/volume_key/volume_key-%{version}.tar.xz
-# Upstream commit 04991fe8c4f77c4e5c7874c2db8ca32fb4655f6e
-Patch1: volume_key-0.3.9-fips-crash.patch
-# Upstream commit 8f8698aba19b501f01285e9eec5c18231fc6bcea
-Patch2: volume_key-0.3.9-config.h.patch
-Patch3: crypt-get-error-undefined-symbol.patch
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
-BuildRequires:	python-devel
+BuildRequires:	pkgconfig(python)
 BuildRequires:	nss-devel
 BuildRequires:	gpgme-devel
 BuildRequires:	pkgconfig(blkid)
@@ -40,7 +35,7 @@ company data after an employee leaves abruptly.
 %package -n	%{devname}
 Summary:	Development files for %{name}
 Group:		Development/C
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{version}-%{release}
 
 %description -n	%{devname}
@@ -69,7 +64,7 @@ company data after an employee leaves abruptly.
 
 %package -n python-volume_key
 Summary: Python bindings for libvolume_key
-Requires: %{libname} = %{version}-%{release}
+Requires: %{libname} = %{EVRD}
 
 %description -n python-volume_key
 This package provides Python bindings for libvolume_key, a library for
@@ -117,3 +112,4 @@ rm -rf %{buildroot}%{python_sitearch}/__pycache__/
 %files -n python-volume_key
 %{python_sitearch}/_volume_key.so
 %{python_sitearch}/volume_key.py*
+%{python_sitearch}/__pycache__

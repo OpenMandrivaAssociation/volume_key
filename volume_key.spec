@@ -10,16 +10,16 @@ Version: 0.3.11
 Release: 1
 License: GPLv2
 URL: https://pagure.io/volume_key/
-Requires: %{libname} = %{EVRD}
-
 Source0: https://releases.pagure.org/volume_key/volume_key-%{version}.tar.xz
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(python)
 BuildRequires:	nss-devel
 BuildRequires:	gpgme-devel
+BuildRequires:	gnupg
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(libcryptsetup)
+Requires: %{libname} = %{EVRD}
 
 %description
 This package provides a command-line tool for manipulating storage volume
@@ -30,7 +30,6 @@ hard drive if the primary user forgets the passphrase.  The encryption key
 back up can also be useful for extracting data after a hardware or software
 failure that corrupts the header of the encrypted volume, or to access the
 company data after an employee leaves abruptly.
-
 
 %package -n	%{devname}
 Summary:	Development files for %{name}
@@ -88,7 +87,7 @@ autoreconf -fiv
 
 %build
 %configure
-%make PYTHON_CPPFLAGS="$(pkg-config --cflags python3)"
+%make PYTHON_CFLAGS="$(pkg-config --cflags python3)"
 
 %install
 %makeinstall_std

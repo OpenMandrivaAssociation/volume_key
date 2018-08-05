@@ -111,4 +111,4 @@ rm -rf %{buildroot}%{python_sitearch}/__pycache__/
 %files -n python-volume_key
 %{python_sitearch}/_volume_key.so
 %{python_sitearch}/volume_key.py*
-%{python_sitearch}/__pycache__
+%{python_sitearch}/__pycache__/*.pyc

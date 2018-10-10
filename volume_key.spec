@@ -1,16 +1,16 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %define major 1
-%define libname	%mklibname volume_key %{major}
-%define devname	%mklibname -d volume_key
+%define libname %mklibname volume_key %{major}
+%define devname %mklibname -d volume_key
 
-Summary: An utility for manipulating storage encryption keys and passphrases
-Name: volume_key
-Version: 0.3.11
-Release: 1
-License: GPLv2
-URL: https://pagure.io/volume_key/
-Source0: https://releases.pagure.org/volume_key/volume_key-%{version}.tar.xz
+Summary:	An utility for manipulating storage encryption keys and passphrases
+Name:		volume_key
+Version:	0.3.12
+Release:	1
+License:	GPLv2
+URL:	https://pagure.io/volume_key/
+Source0:	https://releases.pagure.org/volume_key/volume_key-%{version}.tar.gz
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(python)
@@ -19,7 +19,7 @@ BuildRequires:	gpgme-devel
 BuildRequires:	gnupg
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(libcryptsetup)
-Requires: %{libname} = %{EVRD}
+Requires:	%{libname} = %{EVRD}
 
 %description
 This package provides a command-line tool for manipulating storage volume
@@ -31,13 +31,13 @@ back up can also be useful for extracting data after a hardware or software
 failure that corrupts the header of the encrypted volume, or to access the
 company data after an employee leaves abruptly.
 
-%package -n	%{devname}
+%package -n %{devname}
 Summary:	Development files for %{name}
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n	%{devname}
+%description -n %{devname}
 This package provides libvolume_key, a library for manipulating storage volume
 encryption keys and storing them separately from volumes.
 
@@ -47,11 +47,11 @@ back up can also be useful for extracting data after a hardware or software
 failure that corrupts the header of the encrypted volume, or to access the
 company data after an employee leaves abruptly.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	This package provides libvolume_key library
 Group:		System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 This package provides libvolume_key, a library for manipulating storage volume
 encryption keys and storing them separately from volumes.
 
@@ -80,17 +80,17 @@ volume_key currently supports only the LUKS volume encryption format.  Support
 for other formats is possible, some formats are planned for future releases.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
+
 sed -e 's/-lpython\$(PYTHON_VERSION)/-lpython%{python3_version}m/' -i Makefile.am
 autoreconf -fiv
 
 %build
 %configure
-%make PYTHON_CFLAGS="$(pkg-config --cflags python3)"
+%make_build PYTHON_CFLAGS="$(pkg-config --cflags python3)"
 
 %install
-%makeinstall_std
+%make_install
 rm -rf %{buildroot}%{python_sitearch}/__pycache__/
 
 %find_lang volume_key

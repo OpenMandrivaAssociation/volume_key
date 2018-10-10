@@ -19,6 +19,7 @@ BuildRequires:	gpgme-devel
 BuildRequires:	gnupg
 BuildRequires:	pkgconfig(blkid)
 BuildRequires:	pkgconfig(libcryptsetup)
+BuildRequires:	swig
 Requires:	%{libname} = %{EVRD}
 
 %description
@@ -87,12 +88,16 @@ sed -e 's/-lpython\$(PYTHON_VERSION)/-lpython%{python3_version}m/' -i Makefile.a
 autoreconf -fiv
 
 %build
-%configure
+export GPG_PATH=/usr/bin/gpg
+%configure --with-python3
 %make_build PYTHON_CFLAGS="$(pkg-config --cflags python3)"
 
 %install
 %make_install
 rm -rf %{buildroot}%{python_sitearch}/__pycache__/
+
+# Remove libtool archive
+find %{buildroot} -type f -name "*.la" -delete
 
 %find_lang volume_key
 

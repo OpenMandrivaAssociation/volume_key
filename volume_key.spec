@@ -80,7 +80,8 @@ volume_key currently supports only the LUKS volume encryption format.  Support
 for other formats is possible, some formats are planned for future releases.
 
 %prep
-%autosetup -p1
+%autosetup -n %{name}-%{name}-%{version} -p1
+
 
 sed -e 's/-lpython\$(PYTHON_VERSION)/-lpython%{python3_version}m/' -i Makefile.am
 autoreconf -fiv

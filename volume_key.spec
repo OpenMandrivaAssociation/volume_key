@@ -11,7 +11,7 @@ Release:	3
 License:	GPLv2
 URL:	https://pagure.io/volume_key/
 Source0:	https://releases.pagure.org/volume_key/volume_key-%{version}.tar.gz
-Patch0:		volume_key-0.3.12-support_LUKS2_and_more.patc
+Patch0:		volume_key-0.3.12-support_LUKS2_and_more.patch
 BuildRequires:	pkgconfig(glib-2.0)
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(python)
